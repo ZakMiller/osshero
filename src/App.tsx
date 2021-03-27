@@ -3,10 +3,10 @@ import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import React, { useEffect, useState } from "react";
-import { getStats } from "./api";
-import ErrorMessage from "./ErrorMessage";
-import Leaderboard from "./Leaderboard";
-import MetricRadio from "./metric";
+import { getStats } from "./lib/api";
+import ErrorMessage from "./components/ErrorMessage";
+import Leaderboard from "./components/Leaderboard";
+import MetricRadio from "./components/MetricRadio";
 import { metric, Row, User } from "./types";
 
 export default function App() {

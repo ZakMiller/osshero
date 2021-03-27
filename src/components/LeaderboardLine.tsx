@@ -1,6 +1,6 @@
 import { Card, CardContent, TableCell, TableRow } from "@material-ui/core";
 import React from "react";
-import { User } from "./types";
+import { User } from "../types";
 
 export default function LeaderboardLine({ user }: { user: User }) {
 return (

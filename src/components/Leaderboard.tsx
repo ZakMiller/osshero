@@ -6,7 +6,7 @@ import {
   TableHead,
   TableRow
 } from "@material-ui/core";
-import { User } from "./types";
+import { User } from "../types";
 
 interface Props {
   users: User[];

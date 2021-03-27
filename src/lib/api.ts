@@ -1,5 +1,5 @@
 import { graphql } from "@octokit/graphql";
-import { Row } from "./types";
+import { Row } from "../types";
 
 interface ContributionsCollection {
   totalRepositoryContributions: number;
