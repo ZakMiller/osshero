@@ -14,34 +14,65 @@ interface Node {
   login: string;
   contributionsCollection: ContributionsCollection;
 }
-interface Response {
+interface StatsResponse {
   user: {
     contributionsCollection: ContributionsCollection;
     name: string;
     avatarUrl: string;
     login: string;
     following: {
-      edges: {node: Node}[];
+      edges: { node: Node }[];
     };
   };
 }
 
-function getRow({name, contributionsCollection, login, avatarUrl}: Node): Row {
-    const { totalRepositoryContributions,
-        totalPullRequestContributions,
-        totalPullRequestReviewContributions,
-        totalIssueContributions,
-        totalCommitContributions} = contributionsCollection;
-    return {
-        name,
-        login,
-        avatarUrl,
-        createdRepositories: totalRepositoryContributions,
-        pullRequests: totalPullRequestContributions,
-        pullRequestReviews: totalPullRequestReviewContributions,
-        issuesCreated: totalIssueContributions,
-        commits: totalCommitContributions
-    }
+interface ContributionsResponse {
+  user: {
+    repositoriesContributedTo: {
+      nodes: {
+        nameWithOwner: string;
+        stargazerCount: number;
+        url: string;
+      }[];
+    };
+  };
+}
+
+type Response = StatsResponse | ContributionsResponse;
+
+async function getResult(query: string): Promise<Response> {
+  const token = process.env.REACT_APP_GITHUB_KEY;
+  const result: Response = await graphql(query, {
+    headers: {
+      authorization: `token ${token}`,
+    },
+  });
+  return result;
+}
+
+function getRow({
+  name,
+  contributionsCollection,
+  login,
+  avatarUrl,
+}: Node): Row {
+  const {
+    totalRepositoryContributions,
+    totalPullRequestContributions,
+    totalPullRequestReviewContributions,
+    totalIssueContributions,
+    totalCommitContributions,
+  } = contributionsCollection;
+  return {
+    name,
+    login,
+    avatarUrl,
+    createdRepositories: totalRepositoryContributions,
+    pullRequests: totalPullRequestContributions,
+    pullRequestReviews: totalPullRequestReviewContributions,
+    issuesCreated: totalIssueContributions,
+    commits: totalCommitContributions,
+  };
 }
 
 const getStats = async (name: string) => {
@@ -73,17 +104,29 @@ const getStats = async (name: string) => {
           }
         }
       }`;
-  const token = process.env.REACT_APP_GITHUB_KEY;
-    const result: Response = await graphql(query, {
-      headers: {
-        authorization: `token ${token}`,
-      },
-    });
-    const edges = result.user.following.edges;
-    const me = getRow({...result.user, name})
-    const following = edges.map(e => getRow(e.node));
-    const all = [me, ...following];
-    return all;
+  const result = (await getResult(query)) as StatsResponse;
+  const edges = result.user.following.edges;
+  const me = getRow({ ...result.user, name });
+  const following = edges.map((e) => getRow(e.node));
+  const all = [me, ...following];
+  return all;
 };
 
-export {getStats};
+const getContributions = async (name: string) => {
+  const query = `{
+    user(login: "${name}") {
+      repositoriesContributedTo(privacy: PUBLIC, orderBy: {field: STARGAZERS, direction: DESC}, first: 100, includeUserRepositories: true) {
+        nodes {
+          nameWithOwner
+          stargazerCount
+          url
+        }
+      }
+    }
+  }
+  `;
+  const result = (await getResult(query)) as ContributionsResponse;
+  return result;
+};
+
+export { getStats, getContributions };
