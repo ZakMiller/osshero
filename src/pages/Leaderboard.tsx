@@ -9,7 +9,7 @@ import Leaderboard from "../components/Leaderboard";
 import MetricRadio from "../components/MetricRadio";
 import { metric, Row, User } from "../types";
 
-export default function Home() {
+export default function LeaderboardPage() {
   const [rows, setRows] = React.useState<Row[]>([]);
   const [metric, setMetric] = useState<metric>("commits");
   const users = rows.map((r) => getUser(r, metric));
