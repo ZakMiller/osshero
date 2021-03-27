@@ -3,13 +3,19 @@
   "version": "4.0.0",
   "private": true,
   "dependencies": {
-    "@material-ui/core": "latest",
-    "@material-ui/icons": "^4.11.2",
+    "@emotion/react": "^11.1.5",
+    "@emotion/styled": "^11.1.5",
+    "@material-ui/core": "^5.0.0-alpha.27",
+    "@material-ui/icons": "^5.0.0-alpha.27",
     "@octokit/graphql": "^4.6.1",
     "@types/react": "latest",
     "@types/react-dom": "latest",
+    "history": "^5.0.0",
+    "nprogress": "^0.2.0",
     "react": "latest",
     "react-dom": "latest",
+    "react-router": "^6.0.0-beta.0",
+    "react-router-dom": "^6.0.0-beta.0",
     "react-scripts": "latest",
     "typescript": "latest"
   },
@@ -41,5 +47,9 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
+  },
+  "devDependencies": {
+    "@types/nprogress": "^0.2.0",
+    "@types/react-router-dom": "^5.1.7"
   }
 }
