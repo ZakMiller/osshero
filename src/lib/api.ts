@@ -1,4 +1,5 @@
 import { graphql } from "@octokit/graphql";
+import {Octokit} from '@octokit/rest';
 import { Row } from "../types";
 
 interface ContributionsCollection {
@@ -112,7 +113,7 @@ const getStats = async (name: string) => {
   return all;
 };
 
-const getContributions = async (name: string) => {
+const getRepositoryContributionOverview = async (name: string) => {
   const query = `{
     user(login: "${name}") {
       repositoriesContributedTo(privacy: PUBLIC, orderBy: {field: STARGAZERS, direction: DESC}, first: 100, includeUserRepositories: true) {
@@ -129,4 +130,21 @@ const getContributions = async (name: string) => {
   return result;
 };
 
-export { getStats, getContributions };
+const getRepoDetails = async (name: string, owner: string, repo: string) => {
+  const octokit = new Octokit({auth: process.env.REACT_APP_GITHUB_KEY});
+  const commitsRequest = octokit.request('GET /repos/{owner}/{repo}/commits', {
+    owner,
+    repo,
+    author: name
+  });
+  const issuesRequest = octokit.request('GET /repos/{owner}/{repo}/issues', {
+    owner,
+    repo,
+    creator: name
+  });
+  const commits = (await commitsRequest).data;
+  const issues = (await issuesRequest).data;
+  return {commits, issues};
+}
+
+export { getStats, getRepositoryContributionOverview, getRepoDetails };

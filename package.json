@@ -1,6 +1,6 @@
 {
   "name": "osshero",
-  "version": "4.0.0",
+  "version": "0.0.1",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.1.5",
@@ -8,6 +8,7 @@
     "@material-ui/core": "^5.0.0-alpha.27",
     "@material-ui/icons": "^5.0.0-alpha.27",
     "@octokit/graphql": "^4.6.1",
+    "@octokit/rest": "^18.5.2",
     "@types/react": "latest",
     "@types/react-dom": "latest",
     "history": "^5.0.0",

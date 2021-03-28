@@ -7,7 +7,8 @@ import { getStats } from "../lib/api";
 import ErrorMessage from "../components/ErrorMessage";
 import Leaderboard from "../components/Leaderboard";
 import MetricRadio from "../components/MetricRadio";
-import { metric, Row, User } from "../types";
+import { metric, Row } from "../types";
+import { getUser } from "../util/factory";
 
 export default function LeaderboardPage() {
   const [rows, setRows] = React.useState<Row[]>([]);
@@ -26,15 +27,6 @@ export default function LeaderboardPage() {
       setOpen(true);
       setMessage(error.message);
     }
-  }
-
-  function getUser(row: Row, property: metric): User {
-    const score = row[property];
-    return {
-      name: row.name ?? row.login,
-      score,
-      login: row.login,
-    };
   }
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

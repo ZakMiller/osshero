@@ -2,26 +2,19 @@ import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import React, { useEffect, useState } from "react";
-import { getContributions } from "../lib/api";
+import { getContributions } from "../services/activity";
+import { RepositoryWithDetails } from "../types";
 
-interface Repository {
-  url: string;
-  stars: number;
-  name: string;
-}
 export default function ContributionsPage() {
   const user = "ZakMiller";
-  const [repositories, setRepositories] = useState([] as Repository[]);
+  const [repositories, setRepositories] = useState(
+    [] as RepositoryWithDetails[]
+  );
 
   useEffect(() => {
     async function init() {
       const contributions = await getContributions(user);
-      const repos = contributions.user.repositoriesContributedTo.nodes
-        .map((c) => {
-          return { url: c.url, name: c.nameWithOwner, stars: c.stargazerCount };
-        })
-        .filter((r) => r.stars > 0);
-      setRepositories(repos);
+      setRepositories(contributions);
     }
     init();
   }, []);
@@ -39,6 +32,8 @@ export default function ContributionsPage() {
             return (
               <li key={r.url}>
                 <a href={r.url}>{r.name}</a> ({r.stars}☆)
+                <div>{r.commits.length} commits</div>
+                <div>{r.issues.length} issues</div>
               </li>
             );
           })}

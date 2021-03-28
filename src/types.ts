@@ -21,3 +21,17 @@ export type metric =
   | "pullRequestReviews"
   | "issuesCreated"
   | "commits";
+
+export interface Repository {
+  url: string;
+  stars: number;
+  name: string;
+
+}
+
+interface RepositoryDetails {
+  commits: {}[];
+  issues: {}[];
+}
+
+export type RepositoryWithDetails = Repository & RepositoryDetails;
