@@ -1,4 +1,4 @@
-import { FC, lazy, Suspense } from "react";
+import React, { FC, lazy, Suspense } from "react";
 import type { PartialRouteObject } from "react-router";
 import LoadingScreen from "./components/LoadingScreen";
 import Layout from "./components/Layout";
@@ -9,7 +9,8 @@ const Loadable = (Component: FC) => (props: any) => (
 );
 
 const Leaderboard = Loadable(lazy(() => import("./pages/Leaderboard")));
-const Contributions = Loadable(lazy(() => import("./pages/Contributions")));
+const Profile = Loadable(lazy(() => import("./pages/Profile")));
+const ProfileSearch = Loadable(lazy(() => import("./pages/ProfileSearch")));
 
 const routes: PartialRouteObject[] = [
   {
@@ -21,8 +22,12 @@ const routes: PartialRouteObject[] = [
         element: <Leaderboard />,
       },
       {
-        path: "/contributions",
-        element: <Contributions />,
+        path: "/profile",
+        element: <ProfileSearch />,
+      },
+      {
+        path: "/profile/:id",
+        element: <Profile />,
       },
     ],
   },

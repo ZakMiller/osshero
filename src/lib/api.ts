@@ -1,5 +1,5 @@
 import { graphql } from "@octokit/graphql";
-import {Octokit} from '@octokit/rest';
+import { Octokit } from "@octokit/rest";
 import { Row } from "../types";
 
 interface ContributionsCollection {
@@ -29,6 +29,8 @@ interface StatsResponse {
 
 interface ContributionsResponse {
   user: {
+    name: string;
+    avatarUrl: string;
     repositoriesContributedTo: {
       nodes: {
         nameWithOwner: string;
@@ -79,6 +81,8 @@ function getRow({
 const getStats = async (name: string) => {
   const query = `{
         user(login: "${name}") {
+          name
+          avatarUrl
           contributionsCollection {
             totalRepositoryContributions
             totalPullRequestContributions
@@ -116,6 +120,8 @@ const getStats = async (name: string) => {
 const getRepositoryContributionOverview = async (name: string) => {
   const query = `{
     user(login: "${name}") {
+      name
+      avatarUrl
       repositoriesContributedTo(privacy: PUBLIC, orderBy: {field: STARGAZERS, direction: DESC}, first: 100, includeUserRepositories: true) {
         nodes {
           nameWithOwner
@@ -131,20 +137,20 @@ const getRepositoryContributionOverview = async (name: string) => {
 };
 
 const getRepoDetails = async (name: string, owner: string, repo: string) => {
-  const octokit = new Octokit({auth: process.env.REACT_APP_GITHUB_KEY});
-  const commitsRequest = octokit.request('GET /repos/{owner}/{repo}/commits', {
+  const octokit = new Octokit({ auth: process.env.REACT_APP_GITHUB_KEY });
+  const commitsRequest = octokit.request("GET /repos/{owner}/{repo}/commits", {
     owner,
     repo,
-    author: name
+    author: name,
   });
-  const issuesRequest = octokit.request('GET /repos/{owner}/{repo}/issues', {
+  const issuesRequest = octokit.request("GET /repos/{owner}/{repo}/issues", {
     owner,
     repo,
-    creator: name
+    creator: name,
   });
   const commits = (await commitsRequest).data;
   const issues = (await issuesRequest).data;
-  return {commits, issues};
-}
+  return { commits, issues };
+};
 
 export { getStats, getRepositoryContributionOverview, getRepoDetails };

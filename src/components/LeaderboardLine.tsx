@@ -1,8 +1,8 @@
 import { Card, CardContent, TableCell, TableRow } from "@material-ui/core";
 import React from "react";
-import { User } from "../types";
+import { ScoreboardUser } from "../types";
 
-export default function LeaderboardLine({ user }: { user: User }) {
+export default function LeaderboardLine({ user }: { user: ScoreboardUser }) {
 return (
     <TableRow key={user.name}>
         <TableCell component="th" scope="row">

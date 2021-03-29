@@ -1,6 +1,6 @@
-import { metric, Row, User } from "../types";
+import { metric, Row, ScoreboardUser } from "../types";
 
-export function getUser(row: Row, property: metric): User {
+export function getUser(row: Row, property: metric): ScoreboardUser {
   const score = row[property];
   return {
     name: row.name ?? row.login,

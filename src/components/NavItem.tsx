@@ -27,7 +27,18 @@ export default function NavItem(props: NavItemProps) {
       )
     : false;
 
-  const active = exactMatch;
+
+  const partialMatch = path
+  ? !!matchPath(
+      {
+        path: path,
+        end: false,
+      },
+      location.pathname
+    )
+  : false;
+
+  const active = path === '/' ? exactMatch : partialMatch;
 
   return (
     <ListItem

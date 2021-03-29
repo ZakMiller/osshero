@@ -1,4 +1,4 @@
-export interface User {
+export interface ScoreboardUser {
   name: string;
   login: string;
   score: number;
@@ -26,7 +26,13 @@ export interface Repository {
   url: string;
   stars: number;
   name: string;
+}
 
+export interface User {
+  name: string;
+  login: string;
+  avatarUrl: string;
+  repositories: RepositoryWithDetails[];
 }
 
 interface RepositoryDetails {

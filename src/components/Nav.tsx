@@ -21,7 +21,7 @@ export default function Nav(props: NavbarProps) {
           <NavItem path="/" title="Leaderboard" />
         </Box>
         <Box>
-          <NavItem path="/contributions" title="Contributions" />
+          <NavItem path="/profile" title="Profile" />
         </Box>
         <Box
           sx={{

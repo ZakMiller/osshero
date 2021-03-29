@@ -6,10 +6,10 @@ import {
   TableHead,
   TableRow
 } from "@material-ui/core";
-import { User } from "../types";
+import { ScoreboardUser } from "../types";
 
 interface Props {
-  users: User[];
+  users: ScoreboardUser[];
   setUser: any;
 }
 

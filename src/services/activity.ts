@@ -1,5 +1,5 @@
 import { getRepoDetails, getRepositoryContributionOverview } from "../lib/api";
-import { Repository } from "../types";
+import { Repository, User } from "../types";
 
 async function addCommitsAndIssues(user: string, repo: Repository) {
   const [owner, name] = repo.name.split("/");
@@ -10,17 +10,26 @@ async function addCommitsAndIssues(user: string, repo: Repository) {
   return { ...repo, commits, issues };
 }
 
-async function getContributions(user: string) {
-  const contributions = await getRepositoryContributionOverview(user);
+async function getContributions(login: string) {
+  const contributions = await getRepositoryContributionOverview(login);
   const repos: Repository[] = contributions.user.repositoriesContributedTo.nodes
     .map((c) => {
       return { url: c.url, name: c.nameWithOwner, stars: c.stargazerCount };
     })
     .filter((r) => r.stars > 0);
   const results = await Promise.all(
-    repos.map(async (r) => addCommitsAndIssues(user, r))
+    repos.map(async (r) => addCommitsAndIssues(login, r))
   );
-  return results.filter((r) => r.commits.length > 0 || r.issues.length > 0);
+  const filteredRepos = results.filter(
+    (r) => r.commits.length > 0 || r.issues.length > 0
+  );
+  const user: User = {
+    login,
+    name: contributions.user.name,
+    avatarUrl: contributions.user.avatarUrl,
+    repositories: filteredRepos,
+  };
+  return user;
 }
 
 export { getContributions };
