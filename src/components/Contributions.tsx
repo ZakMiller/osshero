@@ -1,10 +1,11 @@
-import { Avatar, Box, Container } from "@material-ui/core";
+import { Avatar, Box } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import React, { useEffect, useState } from "react";
 import { NavigateFunction } from "react-router";
 import { getContributions } from "../services/activity";
 import theme from "../theme";
-import { RepositoryWithDetails, User } from "../types";
+import { User } from "../types";
+import ContributedRepository from "./ContributedRepository";
 import ProfileSearchForm from "./ProfileSearchForm";
 
 interface Props {
@@ -33,6 +34,7 @@ export default function Contributions({ id, navigate }: Props) {
     }
     loadContributions(id);
   }, [id]);
+
   if (errorMessage)
     return (
       <>
@@ -74,17 +76,12 @@ export default function Contributions({ id, navigate }: Props) {
       <Typography variant="h5" component="h2" gutterBottom>
         Open Source Contributions
       </Typography>
-      <ul>
-        {user.repositories.map((r) => {
-          return (
-            <li key={r.url}>
-              <a href={r.url}>{r.name}</a> ({r.stars}☆)
-              <div>{r.commits.length} commits</div>
-              <div>{r.issues.length} issues</div>
-            </li>
-          );
-        })}
-      </ul>
+      {user.repositories.map((r) => (
+        <ContributedRepository
+          key={r.url}
+          repository={r}
+        ></ContributedRepository>
+      ))}
       <Box pb={4}>
         <div>Want to find another user?</div>
         <ProfileSearchForm navigate={navigate}></ProfileSearchForm>

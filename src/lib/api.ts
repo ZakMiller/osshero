@@ -35,7 +35,15 @@ interface ContributionsResponse {
       nodes: {
         nameWithOwner: string;
         stargazerCount: number;
+        description: string;
         url: string;
+        languages: {
+          nodes: {
+           color: string;
+           name: string; 
+          }[]
+
+        }
       }[];
     };
   };
@@ -126,7 +134,14 @@ const getRepositoryContributionOverview = async (name: string) => {
         nodes {
           nameWithOwner
           stargazerCount
+          description
           url
+          languages(first: 10) {
+            nodes {
+              color
+              name
+            }
+          }
         }
       }
     }

@@ -14,7 +14,13 @@ async function getContributions(login: string) {
   const contributions = await getRepositoryContributionOverview(login);
   const repos: Repository[] = contributions.user.repositoriesContributedTo.nodes
     .map((c) => {
-      return { url: c.url, name: c.nameWithOwner, stars: c.stargazerCount };
+      return {
+        url: c.url,
+        name: c.nameWithOwner,
+        stars: c.stargazerCount,
+        languages: c.languages.nodes,
+        description: c.description,
+      };
     })
     .filter((r) => r.stars > 0);
   const results = await Promise.all(

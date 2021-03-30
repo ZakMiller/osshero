@@ -22,10 +22,18 @@ export type metric =
   | "issuesCreated"
   | "commits";
 
+  export interface Language {
+    color: string;
+    name: string;
+
+  }
+
 export interface Repository {
   url: string;
   stars: number;
   name: string;
+  description: string;
+  languages: Language[];
 }
 
 export interface User {
@@ -35,8 +43,14 @@ export interface User {
   repositories: RepositoryWithDetails[];
 }
 
+export interface Commit {
+  commit: {
+    message: string;
+  };
+}
+
 interface RepositoryDetails {
-  commits: {}[];
+  commits: Commit[];
   issues: {}[];
 }
 
