@@ -1,6 +1,6 @@
 import { Card, CardContent, TableCell, TableRow } from "@material-ui/core";
 import React from "react";
-import { ScoreboardUser } from "../types";
+import { ScoreboardUser } from "../../../backend/src/shared/types";
 
 export default function LeaderboardLine({ user }: { user: ScoreboardUser }) {
 return (

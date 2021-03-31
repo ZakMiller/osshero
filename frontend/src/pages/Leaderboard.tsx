@@ -7,7 +7,7 @@ import { getStats } from "../lib/api";
 import ErrorMessage from "../components/ErrorMessage";
 import Leaderboard from "../components/Leaderboard";
 import MetricRadio from "../components/MetricRadio";
-import { metric, Row } from "../types";
+import { metric, Row } from "../../../backend/src/shared/types";
 import { getUser } from "../util/factory";
 
 export default function LeaderboardPage() {

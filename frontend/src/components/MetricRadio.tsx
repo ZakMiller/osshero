@@ -6,7 +6,7 @@ import {
   RadioGroup,
 } from "@material-ui/core";
 import React from "react";
-import { metric } from "../types";
+import { metric } from "../../../backend/src/shared/types";
 
 interface Props {
   metric: metric;

@@ -8,7 +8,7 @@ import {
 import { yellow } from "@material-ui/core/colors";
 import { Star } from "@material-ui/icons";
 import React from "react";
-import { Commit, Language, RepositoryWithDetails } from "../types";
+import { Commit, Language, RepositoryWithDetails } from "../../../backend/src/shared/types"
 
 function commitMessage(commit: Commit) {
   const messageLength = 60;

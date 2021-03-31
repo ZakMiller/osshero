@@ -1,6 +1,6 @@
-import { graphql } from "@octokit/graphql";
-import { Octokit } from "@octokit/rest";
-import { Row } from "../types";
+import { graphql } from '@octokit/graphql';
+import { Octokit } from '@octokit/rest';
+import { Row } from './shared/types';
 
 interface ContributionsCollection {
   totalRepositoryContributions: number;
@@ -39,20 +39,17 @@ interface ContributionsResponse {
         url: string;
         languages: {
           nodes: {
-           color: string;
-           name: string; 
-          }[]
-
-        }
+            color: string;
+            name: string;
+          }[];
+        };
       }[];
     };
   };
 }
-
 type Response = StatsResponse | ContributionsResponse;
 
-async function getResult(query: string): Promise<Response> {
-  const token = process.env.REACT_APP_GITHUB_KEY;
+async function getResult(query: string, token: string): Promise<Response> {
   const result: Response = await graphql(query, {
     headers: {
       authorization: `token ${token}`,
@@ -86,7 +83,7 @@ function getRow({
   };
 }
 
-const getStats = async (name: string) => {
+const getStats = async (name: string, token: string) => {
   const query = `{
         user(login: "${name}") {
           name
@@ -117,7 +114,7 @@ const getStats = async (name: string) => {
           }
         }
       }`;
-  const result = (await getResult(query)) as StatsResponse;
+  const result = (await getResult(query, token)) as StatsResponse;
   const edges = result.user.following.edges;
   const me = getRow({ ...result.user, name });
   const following = edges.map((e) => getRow(e.node));
@@ -125,7 +122,10 @@ const getStats = async (name: string) => {
   return all;
 };
 
-const getRepositoryContributionOverview = async (name: string) => {
+const getRepositoryContributionOverview = async (
+  name: string,
+  token: string,
+) => {
   const query = `{
     user(login: "${name}") {
       name
@@ -147,18 +147,23 @@ const getRepositoryContributionOverview = async (name: string) => {
     }
   }
   `;
-  const result = (await getResult(query)) as ContributionsResponse;
+  const result = (await getResult(query, token)) as ContributionsResponse;
   return result;
 };
 
-const getRepoDetails = async (name: string, owner: string, repo: string) => {
-  const octokit = new Octokit({ auth: process.env.REACT_APP_GITHUB_KEY });
-  const commitsRequest = octokit.request("GET /repos/{owner}/{repo}/commits", {
+const getRepoDetails = async (
+  name: string,
+  owner: string,
+  repo: string,
+  token: string,
+) => {
+  const octokit = new Octokit({ auth: token });
+  const commitsRequest = octokit.request('GET /repos/{owner}/{repo}/commits', {
     owner,
     repo,
     author: name,
   });
-  const issuesRequest = octokit.request("GET /repos/{owner}/{repo}/issues", {
+  const issuesRequest = octokit.request('GET /repos/{owner}/{repo}/issues', {
     owner,
     repo,
     creator: name,

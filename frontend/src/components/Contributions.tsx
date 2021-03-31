@@ -2,9 +2,9 @@ import { Avatar, Box } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import React, { useEffect, useState } from "react";
 import { NavigateFunction } from "react-router";
-import { getContributions } from "../services/activity";
+import { getContributions } from "../lib/api";
 import theme from "../theme";
-import { User } from "../types";
+import { User } from "../../../backend/src/shared/types";
 import ContributedRepository from "./ContributedRepository";
 import ProfileSearchForm from "./ProfileSearchForm";
 

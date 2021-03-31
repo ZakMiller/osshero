@@ -6,7 +6,7 @@ import {
   TableHead,
   TableRow
 } from "@material-ui/core";
-import { ScoreboardUser } from "../types";
+import { ScoreboardUser } from "../../../backend/src/shared/types";
 
 interface Props {
   users: ScoreboardUser[];
