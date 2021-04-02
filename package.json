@@ -6,7 +6,7 @@
     "start": "yarn workspace frontend start & yarn workspace backend start:dev"
   },
   "workspaces": [
-    "x",
+    "frontend",
     "backend"
   ]
 }

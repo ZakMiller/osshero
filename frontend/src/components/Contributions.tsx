@@ -7,6 +7,7 @@ import theme from "../theme";
 import { User } from "../../../backend/src/shared/types";
 import ContributedRepository from "./ContributedRepository";
 import ProfileSearchForm from "./ProfileSearchForm";
+import ContributionsLoader from "./ContributionsLoader";
 
 interface Props {
   id: string;
@@ -49,10 +50,7 @@ export default function Contributions({ id, navigate }: Props) {
   if (user == null)
     return (
       <>
-        <Typography variant="h4" component="h1" gutterBottom>
-          User Contributions
-        </Typography>
-        <div>loading...</div>
+        <ContributionsLoader />
       </>
     );
 
